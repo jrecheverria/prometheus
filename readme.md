@@ -1,4 +1,4 @@
-# Prometheus
+# prometheus
 
 ```
 ⠀⠀⠀⠀⠀⠀⢱⣆⠀⠀⠀⠀⠀⠀
@@ -15,14 +15,14 @@
 ⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ```
 
-Simple developer environment initialization script.
+simple developer environment initialization script.
 
 ## Brings in
 
-- Homebrew package manager
-- Ghostty terminal emulator + config
-- GitHub CLI
-- Neovim
+- homebrew package manager
+- ghostty terminal emulator + config
+- github cli
+- neovim
 - ripgrep + fd (for telescope)
 - kickstart.nvim config
 
