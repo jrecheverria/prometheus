@@ -1,0 +1,30 @@
+# Appearance
+font-family = JetBrains Mono
+font-size = 14
+theme = Arthur
+background-opacity = 0.95
+
+# Spacing
+window-padding-x = 16
+window-padding-y = 16
+window-padding-balance = true
+
+# Cursor
+cursor-style = bar
+cursor-style-blink = false
+
+# Window chrome
+macos-titlebar-style = tabs
+window-save-state = always
+
+# Scrollback
+scrollback-limit = 100000
+
+# Mouse
+mouse-hide-while-typing = true
+
+# Shell integration niceties
+shell-integration-features = cursor,sudo,title
+
+# Quick terminal (drop-down style, bind to a hotkey)
+keybind = global:cmd+grave_accent=toggle_quick_terminal
