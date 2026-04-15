@@ -77,7 +77,21 @@ if ! command -v fd > /dev/null 2>&1; then
 fi
 
 # Step 6. Install kickstart for minimal neovim configuration
-log "beggining neovim configuration. installing kickstart"
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
-ok "kick start installed in /.config/nvim directory"
+NVIM_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+if [[ ! -d "$NVIM_CONFIG_DIR" ]]; then
+    log "beggining neovim configuration. installing kickstart"
+    git clone https://github.com/nvim-lua/kickstart.nvim.git "$NVIM_CONFIG_DIR"
+    ok "kick start installed in $NVIM_CONFIG_DIR"
+else
+    ok "nvim config directory already present at $NVIM_CONFIG_DIR"
+fi
+
+# Step 7. Overlay custom init.lua on top of kickstart
+log "writing custom neovim init.lua"
+if [[ ! -f "$SCRIPT_DIR/nvim_init.lua" ]]; then
+    err "source config not found at $SCRIPT_DIR/nvim_init.lua"
+    exit 1
+fi
+cat "$SCRIPT_DIR/nvim_init.lua" > "$NVIM_CONFIG_DIR/init.lua"
+ok "custom init.lua written to $NVIM_CONFIG_DIR/init.lua"
 
