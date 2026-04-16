@@ -72,10 +72,18 @@ fi
 
 if ! command -v fd > /dev/null 2>&1; then
       warn "fd not installed, installing fd via brew"
-      brew install fd 
+      brew install fd
 fi
 
-# Step 6. Install kickstart for minimal neovim configuration
+# Step 7. Install tree-sitter-cli for treesitter parsers
+if ! command -v tree-sitter > /dev/null 2>&1; then
+      warn "tree-sitter-cli not installed, installing tree-sitter-cli via brew"
+      brew install tree-sitter
+else
+      ok "tree-sitter-cli is installed"
+fi
+
+# Step 8. Install kickstart for minimal neovim configuration
 NVIM_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 if [[ ! -d "$NVIM_CONFIG_DIR" ]]; then
     log "beggining neovim configuration. installing kickstart"
@@ -85,7 +93,7 @@ else
     ok "nvim config directory already present at $NVIM_CONFIG_DIR"
 fi
 
-# Step 7. Overlay custom init.lua on top of kickstart
+# Step 9. Overlay custom init.lua on top of kickstart
 log "writing custom neovim init.lua"
 if [[ ! -f "$SCRIPT_DIR/nvim_init.lua" ]]; then
     err "source config not found at $SCRIPT_DIR/nvim_init.lua"
@@ -93,4 +101,17 @@ if [[ ! -f "$SCRIPT_DIR/nvim_init.lua" ]]; then
 fi
 cat "$SCRIPT_DIR/nvim_init.lua" > "$NVIM_CONFIG_DIR/init.lua"
 ok "custom init.lua written to $NVIM_CONFIG_DIR/init.lua"
+
+# Step 10. Install custom neovim plugins
+CUSTOM_PLUGINS_DIR="$NVIM_CONFIG_DIR/lua/custom/plugins"
+mkdir -p "$CUSTOM_PLUGINS_DIR"
+
+log "writing custom neovim plugins"
+for plugin_file in "$SCRIPT_DIR"/nvim_plugins/*.lua; do
+    if [[ -f "$plugin_file" ]]; then
+        filename="$(basename "$plugin_file")"
+        cat "$plugin_file" > "$CUSTOM_PLUGINS_DIR/$filename"
+        ok "installed custom plugin $filename"
+    fi
+done
 
