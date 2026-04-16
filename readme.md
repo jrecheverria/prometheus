@@ -26,6 +26,13 @@ simple developer environment initialization script.
 - ripgrep + fd (for telescope)
 - kickstart.nvim config
 
+## Custom Neovim Plugins
+
+On top of kickstart.nvim, the following plugins are added via `nvim_plugins/`:
+
+- **oil.nvim** - file explorer that lets you edit your filesystem like a buffer. Press `-` to open the parent directory.
+- **toggleterm.nvim** - persistent terminal that toggles with `<C-\>`. Opens horizontally at the bottom. Press `<Esc>` to exit terminal mode.
+
 ## Run
 
 ```sh
