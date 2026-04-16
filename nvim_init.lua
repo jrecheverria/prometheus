@@ -84,6 +84,14 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- Ensure Homebrew binaries (including tree-sitter CLI) are in PATH
+if vim.fn.has 'mac' == 1 then
+  local brew_prefix = '/opt/homebrew'
+  if vim.uv.fs_stat(brew_prefix .. '/bin/tree-sitter') and not vim.env.PATH:find(brew_prefix .. '/bin', 1, true) then
+    vim.env.PATH = brew_prefix .. '/bin:' .. vim.env.PATH
+  end
+end
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -231,6 +239,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function() vim.hl.on_yank() end,
+})
+
+-- autosave
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'TextChanged' }, {
+  desc = 'Auto-save on text change',
+  pattern = '*',
+  callback = function()
+    if vim.bo.modified and vim.bo.buftype == '' and vim.fn.expand '%' ~= '' then vim.cmd 'silent! write' end
+  end,
 })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
@@ -606,14 +623,12 @@ require('lazy').setup({
         -- clangd = {},
         gopls = {},
         bashls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        html = {}, -- HTML
+        cssls = {}, -- CSS, SCSS, Less
+        tailwindcss = {}, -- Tailwind CSS (class autocomplete with previews)
+        emmet_language_server = {}, -- Emmet abbreviations (type `div.foo>p*3` + Tab)
+        ts_ls = {}, -- TypeScript + JavaScript
+        eslint = {}, -- ESLint diagnostics and autofix
 
         stylua = {}, -- Used to format Lua code
 
