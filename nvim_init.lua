@@ -182,6 +182,11 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Move to left pane' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Move to bottom pane' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Move to top pane' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Move to right pane' })
+
 -- Diagnostic Config & Keymaps
 -- See :help vim.diagnostic.Opts
 vim.diagnostic.config {

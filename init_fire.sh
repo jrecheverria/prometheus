@@ -83,7 +83,15 @@ else
       ok "tree-sitter-cli is installed"
 fi
 
-# Step 8. Install kickstart for minimal neovim configuration
+# Step 8. Install flyctl for fly.io deployments
+if ! command -v fly > /dev/null 2>&1; then
+      warn "flyctl not installed, installing flyctl via brew"
+      brew install flyctl
+else
+      ok "flyctl is installed"
+fi
+
+# Step 9. Install kickstart for minimal neovim configuration
 NVIM_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 if [[ ! -d "$NVIM_CONFIG_DIR" ]]; then
     log "beggining neovim configuration. installing kickstart"
@@ -93,7 +101,7 @@ else
     ok "nvim config directory already present at $NVIM_CONFIG_DIR"
 fi
 
-# Step 9. Overlay custom init.lua on top of kickstart
+# Step 10. Overlay custom init.lua on top of kickstart
 log "writing custom neovim init.lua"
 if [[ ! -f "$SCRIPT_DIR/nvim_init.lua" ]]; then
     err "source config not found at $SCRIPT_DIR/nvim_init.lua"
@@ -102,7 +110,7 @@ fi
 cat "$SCRIPT_DIR/nvim_init.lua" > "$NVIM_CONFIG_DIR/init.lua"
 ok "custom init.lua written to $NVIM_CONFIG_DIR/init.lua"
 
-# Step 10. Install custom neovim plugins
+# Step 11. Install custom neovim plugins
 CUSTOM_PLUGINS_DIR="$NVIM_CONFIG_DIR/lua/custom/plugins"
 mkdir -p "$CUSTOM_PLUGINS_DIR"
 
